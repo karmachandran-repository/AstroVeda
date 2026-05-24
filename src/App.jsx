@@ -9,6 +9,8 @@ import MuhurtaPage from "./components/MuhurtaPage";
 import LibraryPage from "./components/LibraryPage";
 import SecurityPage from "./components/SecurityPage";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const PRESET_CITIES = [
   { name: "New Delhi, India", lat: 28.6139, lon: 77.2090, tz: 5.5 },
   { name: "Mumbai, India", lat: 19.0760, lon: 72.8777, tz: 5.5 },
@@ -133,7 +135,7 @@ export default function App() {
   useEffect(() => {
     const fetchAuthConfig = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/config");
+        const res = await fetch(`${API_BASE}/api/auth/config`);
         if (res.ok) {
           const data = await res.json();
           if (data.googleClientId) {
@@ -187,7 +189,7 @@ export default function App() {
   const fetch2faStatus = async () => {
     if (!userToken) return;
     try {
-      const response = await fetch("http://localhost:5000/api/auth/2fa/status", {
+      const response = await fetch(`${API_BASE}/api/auth/2fa/status`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${userToken}`
@@ -213,7 +215,7 @@ export default function App() {
     const timer = setTimeout(async () => {
       setGeocodingLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/search-place?query=${encodeURIComponent(placeInput)}`);
+        const response = await fetch(`${API_BASE}/api/search-place?query=${encodeURIComponent(placeInput)}`);
         if (response.ok) {
           const data = await response.json();
           setSuggestions(data);
@@ -254,7 +256,7 @@ export default function App() {
     const timer = setTimeout(async () => {
       setPartnerGeocodingLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/search-place?query=${encodeURIComponent(partnerPlaceInput)}`);
+        const response = await fetch(`${API_BASE}/api/search-place?query=${encodeURIComponent(partnerPlaceInput)}`);
         if (response.ok) {
           const data = await response.json();
           setPartnerSuggestions(data);
@@ -292,7 +294,7 @@ export default function App() {
     setMatchmakingResult(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/matchmaking", {
+      const response = await fetch(`${API_BASE}/api/matchmaking`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -323,7 +325,7 @@ export default function App() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/profiles", {
+      const res = await fetch(`${API_BASE}/api/profiles`, {
         headers: {
           "Authorization": `Bearer ${userToken}`
         }
@@ -372,7 +374,7 @@ export default function App() {
         headers["x-trusted-device"] = trustedToken;
       }
 
-      const response = await fetch(`http://localhost:5000/api/auth/${endpoint}`, {
+      const response = await fetch(`${API_BASE}/api/auth/${endpoint}`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({
@@ -420,7 +422,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_BASE}/api/auth/google`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ credential: response.credential })
@@ -453,7 +455,7 @@ export default function App() {
     setAuthLoading(true);
     setAuthError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/linkedin", {
+      const res = await fetch(`${API_BASE}/api/auth/linkedin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: "mock_linkedin_auth_code_12345" })
@@ -481,7 +483,7 @@ export default function App() {
     setAuthLoading(true);
     setAuthError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/microsoft", {
+      const res = await fetch(`${API_BASE}/api/auth/microsoft`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: "mock_microsoft_auth_code_67890" })
@@ -516,7 +518,7 @@ export default function App() {
     setAuthError("");
     
     try {
-      const response = await fetch("http://localhost:5000/api/auth/2fa/verify", {
+      const response = await fetch(`${API_BASE}/api/auth/2fa/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -555,7 +557,7 @@ export default function App() {
   const handleSetup2fa = async () => {
     setAuthError("");
     try {
-      const response = await fetch("http://localhost:5000/api/auth/2fa/setup", {
+      const response = await fetch(`${API_BASE}/api/auth/2fa/setup`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${userToken}`
@@ -582,7 +584,7 @@ export default function App() {
     }
     setAuthError("");
     try {
-      const response = await fetch("http://localhost:5000/api/auth/2fa/enable", {
+      const response = await fetch(`${API_BASE}/api/auth/2fa/enable`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -608,7 +610,7 @@ export default function App() {
     if (!confirm("Are you sure you want to deactivate Two-Factor Authentication? Your account security will be lowered.")) return;
     setAuthError("");
     try {
-      const response = await fetch("http://localhost:5000/api/auth/2fa/disable", {
+      const response = await fetch(`${API_BASE}/api/auth/2fa/disable`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${userToken}`
@@ -631,7 +633,7 @@ export default function App() {
 
   const fetchLibraryStats = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/ingested-books");
+      const res = await fetch(`${API_BASE}/api/ingested-books`);
       const data = await res.json();
       setLibraryStats(data);
     } catch (e) {
@@ -661,7 +663,7 @@ export default function App() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/calculate-chart", {
+      const response = await fetch(`${API_BASE}/api/calculate-chart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -710,7 +712,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/profiles/save", {
+      const response = await fetch(`${API_BASE}/api/profiles/save`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -746,7 +748,7 @@ export default function App() {
     
     // Automatically trigger calculation for the selected profile
     setLoading(true);
-    fetch("http://localhost:5000/api/calculate-chart", {
+    fetch(`${API_BASE}/api/calculate-chart`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -779,7 +781,7 @@ export default function App() {
     setActiveRuleIndex(0);
 
     try {
-      const response = await fetch("http://localhost:5000/api/query-prediction", {
+      const response = await fetch(`${API_BASE}/api/query-prediction`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -857,7 +859,7 @@ export default function App() {
     
     setMuhurtaLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/scan-muhurtas", {
+      const response = await fetch(`${API_BASE}/api/scan-muhurtas`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -893,7 +895,7 @@ export default function App() {
     formUpload.append("title", ingestTitle);
 
     try {
-      const response = await fetch("http://localhost:5000/api/ingest-book", {
+      const response = await fetch(`${API_BASE}/api/ingest-book`, {
         method: "POST",
         body: formUpload
       });
