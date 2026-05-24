@@ -4,8 +4,10 @@ import datetime
 from typing import Optional
 from jose import jwt, JWTError
 
-# Standard security keys
-SECRET_KEY = "astroveda_cosmic_secret_key_stellar_alignment_2026"
+import os
+
+# Standard security keys loading from environment in production
+SECRET_KEY = os.environ.get("JWT_SECRET", "astroveda_cosmic_secret_key_stellar_alignment_2026")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 7
 
