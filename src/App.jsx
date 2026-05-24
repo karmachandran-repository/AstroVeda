@@ -9,7 +9,7 @@ import MuhurtaPage from "./components/MuhurtaPage";
 import LibraryPage from "./components/LibraryPage";
 import SecurityPage from "./components/SecurityPage";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL || `${window.location.protocol}//${window.location.hostname}:5000`;
 
 const PRESET_CITIES = [
   { name: "New Delhi, India", lat: 28.6139, lon: 77.2090, tz: 5.5 },
