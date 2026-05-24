@@ -1149,11 +1149,12 @@ body {
 }
 
 /* Sidebar-free Top Navigation & AstroVeda Overhaul Styles */
+/* Sidebar-free Top Navigation & AstroVeda Overhaul Styles */
 .top-nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.75rem 2rem;
   background: var(--card-glass);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -1162,6 +1163,14 @@ body {
   top: 0;
   z-index: 1000;
   margin-bottom: 1.5rem;
+  transition: var(--transition-smooth);
+}
+
+.top-nav-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .top-nav-links {
@@ -1190,6 +1199,110 @@ body {
   background: rgba(212, 175, 55, 0.08);
   font-weight: 600;
   text-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
+}
+
+.top-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Brand logo link styling */
+.brand-logo-link {
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Hamburger button (hidden on desktop by default) */
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: var(--transition-smooth);
+  border-radius: var(--radius-sm);
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-gold);
+}
+
+/* Compact Auth Button */
+.btn-auth-compact {
+  padding: 0.4rem 1.1rem !important;
+  font-size: 0.82rem !important;
+  border-radius: 20px !important;
+  width: auto !important;
+  box-shadow: none !important;
+}
+
+.user-profile-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.user-profile-name {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mobile collapsible drawer */
+.mobile-menu-drawer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-drawer.open {
+  max-height: 400px; /* Allow sliding down */
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.mobile-nav-link {
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition-smooth);
+  display: block;
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-indigo);
+  background: rgba(255, 255, 255, 0.4);
+  padding-left: 1.25rem;
+}
+
+.mobile-nav-link.active {
+  color: var(--color-gold-text);
+  background: rgba(212, 175, 55, 0.08);
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
+  padding-left: 1.25rem;
 }
 
 .branding-centered {
@@ -1468,26 +1581,35 @@ body {
 }
 
 /* Mobile Optimization BREAKPOINTS */
-@media (max-width: 600px) {
-  /* 1. Header Navigation adjustments */
-  .top-nav {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+@media (max-width: 768px) {
+  /* 1. Header Navigation adjustments for Hamburger drawer */
+  .desktop-only {
+    display: none !important;
+  }
+  .hamburger-btn {
+    display: flex;
     align-items: center;
-    text-align: center;
-  }
-  .top-nav-links {
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
   }
-  .top-nav-link {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.75rem;
+  .top-nav {
+    padding: 0.5rem 1rem;
   }
-  
+  .brand-title {
+    font-size: 1.4rem !important;
+  }
+  .user-profile-name {
+    display: none !important; /* Hide name text to prevent overflow on mobile, keeping just the Sign Out button */
+  }
+  .user-profile-widget {
+    gap: 0.35rem;
+  }
+  .btn-auth-compact {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 600px) {
   /* 2. Centralized branding text sizes */
   .branding-centered h1 {
     font-size: 2.2rem;

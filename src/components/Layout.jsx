@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import Header from "./Header";
 
 export default function Layout({
   userToken,
@@ -95,70 +96,14 @@ export default function Layout({
     <div className="app-container" style={{ animation: "fadeIn 0.5s ease-out", maxWidth: "100%", padding: 0 }}>
       
       {/* 1. Header Layout Top Navigation Bar */}
-      <header className="top-nav">
-        {/* Logo */}
-        <div className="brand-section" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "0.5rem" }}>
-          <h1 className="brand-title" style={{ fontSize: "1.8rem", margin: 0, padding: 0 }}>AstroVeda</h1>
-        </div>
-
-        {/* Links: Dashboard, Predictions, Analysis, Compatibility, Muhurta, Library */}
-        <nav className="top-nav-links">
-          <NavLink to="/" end className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Dashboard
-          </NavLink>
-          <NavLink to="/query" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Predictions
-          </NavLink>
-          <NavLink to="/shadbala" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Analysis
-          </NavLink>
-          <NavLink to="/matchmaking" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Compatibility
-          </NavLink>
-          <NavLink to="/muhurta" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Muhurta
-          </NavLink>
-          <NavLink to="/library" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-            Library
-          </NavLink>
-          {userToken && (
-            <NavLink to="/security" className={({ isActive }) => `top-nav-link ${isActive ? "active" : ""}`}>
-              Security
-            </NavLink>
-          )}
-        </nav>
-
-        {/* Far Right Session / Auth button */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          {userToken ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.9rem" }}>
-              <span style={{ color: "var(--text-secondary)" }}>
-                👤 <strong style={{ color: "var(--color-gold-text)" }}>{currentUsername}</strong>
-              </span>
-              <button 
-                onClick={handleSignOut}
-                className="btn-secondary"
-                style={{ padding: "0.3rem 0.8rem", fontSize: "0.8rem", cursor: "pointer", border: "1px solid var(--border-glass)", borderRadius: "20px" }}
-              >
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <button 
-              onClick={() => { setShowAuthModal(true); setAuthMode("login"); setAuthError(""); }}
-              className="btn-primary"
-              style={{
-                padding: "0.5rem 1.2rem",
-                fontSize: "0.85rem",
-                borderRadius: "30px",
-                cursor: "pointer"
-              }}
-            >
-              Sign In / Register
-            </button>
-          )}
-        </div>
-      </header>
+      <Header
+        userToken={userToken}
+        currentUsername={currentUsername}
+        handleSignOut={handleSignOut}
+        setShowAuthModal={setShowAuthModal}
+        setAuthMode={setAuthMode}
+        setAuthError={setAuthError}
+      />
 
       {/* 2. Dominant Planet Widget Banner - Conditional State-Aware Rendering */}
       {userToken && chartData && chartData.shadbala && (
